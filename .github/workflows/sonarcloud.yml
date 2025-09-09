@@ -1,1 +1,38 @@
-name: SonarCloud analysis on: push: branches: [ "main" ] pull_request: branches: [ "main" ] workflow_dispatch: jobs: Analysis: runs-on: ubuntu-latest steps: - uses: actions/checkout@v4 with: fetch-depth: 0 # Shallow clones should be disabled for a better relevancy of analysis - name: Analyze with SonarCloud uses: SonarSource/sonarcloud-github-action@master with: args: > -Dsonar.typescript.lcov.reportPaths=./coverage/lcov.info -Dsonar.verbose=false -Dsonar.projectKey=crp-feature-flag-by-bolt -Dsonar.organization=christian-dior-couture -Dsonar.language=ts -Dsonar.sourceEncoding=UTF-8 -Dsonar.sources=./src -Dsonar.tests=./src/__tests__ -Dsonar.test.inclusions=**/*.test.tsx -Dsonar.coverage.exclusions=**/*.test.tsx,**/*.config.js,/.next/**/* -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info -Dsonar.testExecutionReportPaths=coverage/clover.xml -Dsonar.javascript.node.maxspace=4096 env: GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+name: SonarCloud analysis
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+  workflow_dispatch:
+
+
+jobs:
+  Analysis:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # Shallow clones should be disabled for a better relevancy of analysis
+      - name: Analyze with SonarCloud
+        uses: SonarSource/sonarcloud-github-action@master
+        with:
+            args: >
+              -Dsonar.typescript.lcov.reportPaths=./coverage/lcov.info
+              -Dsonar.verbose=false
+              -Dsonar.projectKey=crp-feature-flag-by-bolt
+              -Dsonar.organization=christian-dior-couture
+              -Dsonar.language=ts
+              -Dsonar.sourceEncoding=UTF-8
+              -Dsonar.sources=./src
+              -Dsonar.tests=./src/__tests__
+              -Dsonar.test.inclusions=**/*.test.tsx
+              -Dsonar.coverage.exclusions=**/*.test.tsx,**/*.config.js,/.next/**/*
+              -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info
+              -Dsonar.testExecutionReportPaths=coverage/clover.xml
+              -Dsonar.javascript.node.maxspace=4096
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
