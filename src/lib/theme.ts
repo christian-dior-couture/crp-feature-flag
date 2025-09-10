@@ -1,8 +1,12 @@
 'use client';
 import { createTheme } from '@mui/material/styles';
-// Removed: import { Roboto } from 'next/font/google';
+import { Roboto } from 'next/font/google';
 
-// Removed: const roboto = Roboto({ ... });
+const roboto = Roboto({
+  weight: ['300', '400', '500', '700'],
+  subsets: ['latin'],
+  display: 'swap',
+});
 
 const theme = createTheme({
   palette: {
@@ -21,8 +25,7 @@ const theme = createTheme({
     },
   },
   typography: {
-    // The explicit fontFamily is removed. MUI will use its default "Roboto", sans-serif.
-    // This avoids the build conflict with babel.
+    fontFamily: roboto.style.fontFamily,
   },
   components: {
     MuiButtonBase: {
